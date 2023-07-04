@@ -12,9 +12,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class TransferPage {
     private SelenideElement transferHead = $(byText("Пополнение карты"));
-    private SelenideElement transferAmount = $("[data-test-id='amount']");
-    private SelenideElement transferFrom = $("[data-test-id='from']");
-    private SelenideElement transferTo = $("[data-test-id='to']");
+    private SelenideElement transferAmount = $("[data-test-id='amount'] input");
+    private SelenideElement transferFrom = $("[data-test-id='from'] input");
+//    private SelenideElement transferTo = $("[data-test-id='to']");
     private SelenideElement transferButton = $("[data-test-id='action-transfer']");
     private SelenideElement transferErrorMassage = $("[data-test-id='error-notification']");
 
@@ -23,16 +23,16 @@ public class TransferPage {
         transferHead.shouldBe(visible, Duration.ofSeconds(15));
     }
 
-    public void transfer(DataHelper.CardInfo cardInfo, String amount) {
-        transferAmount.setValue(amount);
-        transferFrom.setValue(cardInfo.getNumber());
-//        transferTo.setValue(cardInfo.getNumber());
-        transferButton.click();
-    }
+
 
     public DashboardPage validTransfer(DataHelper.CardInfo cardInfo, String amount) {
-        transfer(cardInfo, amount);
+        makeTransfer(cardInfo, amount);
         return new DashboardPage();
+    }
+    public void makeTransfer(DataHelper.CardInfo cardInfo, String amount) {
+        transferAmount.setValue(amount);
+        transferFrom.setValue(cardInfo.getNumber());
+        transferButton.click();
     }
 
     public void findErrorMassage(String expectedText) {

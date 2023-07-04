@@ -10,30 +10,37 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
-  private SelenideElement heading = $("[data-test-id=dashboard]");
-  private ElementsCollection cards = $$("[.list__item]");
-  private final String balanceStart = "баланс: ";
-  private final String balanceFinish = " р.";
+    private SelenideElement heading = $("[data-test-id=dashboard]");
+//    private SelenideElement cardOne = $("[data-test-id=92df3f1c-a033-48e6-8390-206f6b1f56c0]");
+    private ElementsCollection cards = $$(".list__item div");
+    private final String balanceStart = "баланс: ";
+    private final String balanceFinish = " р.";
 
-  public DashboardPage() {
+    public DashboardPage() {
 
-    heading.shouldBe(visible);
-  }
-  public int getCardBalance(int index) {
-    val text = cards.get(index).getText();
-    return extractBalance(text);
-  }
+        heading.shouldBe(visible);
+    }
 
-  private int extractBalance(String text) {
-    val start = text.indexOf(balanceStart);
-    val finish = text.indexOf(balanceFinish);
-    val value = text.substring(start + balanceStart.length(), finish);
-    return Integer.parseInt(value);
-  }
+    public int getCardBalance(int index) {
+        var text = cards.get(index).getText();
+        return extractBalance(text);
+    }
+//    public int getCardBalanceOne() {
+//        var text = cardOne.getText();
+//        return extractBalance(text);
+//    }
 
-  public TransferPage validVerify(int index) {
-    cards.get(index).$(".button").click();;
-    return new TransferPage();
-  }
-  }
+    private int extractBalance(String text) {
+        var start = text.indexOf(balanceStart);
+        var finish = text.indexOf(balanceFinish);
+        var value = text.substring(start + balanceStart.length(), finish);
+        return Integer.parseInt(value);
+    }
+
+    public TransferPage selectCardToTransfer(int index) {
+        cards.get(index).$(".button").click();
+
+        return new TransferPage();
+    }
+}
 
